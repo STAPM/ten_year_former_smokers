@@ -91,6 +91,9 @@ data[, age_cat := c("13-15",
                     "65-74",
                     "75-89")[findInterval(age, c(-1, 16, 18, 25, 35, 45, 55, 65, 75, 1000))]]
 
+# select individuals age 18+
+data <- data[age >= 18]
+
 # Filter to retain only former smokers with data on the number of years since quitting
 data <- data[cig_smoker_status == "former" & !is.na(years_since_quit)]
 # 2605 data points
