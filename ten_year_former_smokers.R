@@ -102,8 +102,8 @@ data <- data[cig_smoker_status == "former" & !is.na(years_since_quit)]
 # y = quit < 10 years
 # n = quit >= 10 years
 
-data[years_since_quit < 10, quit10 := "y"]
-data[years_since_quit >= 10, quit10 := "n"]
+data[years_since_quit <= 10, quit10 := "y"]
+data[years_since_quit > 10, quit10 := "n"]
 
 # calculate the survey weighted proportion
 
@@ -116,23 +116,15 @@ prop_quit10 <- prop_summary(data = data,
 
 write.table(prop_quit10, "prop_quit10.csv", row.names = F, sep = ",")
 
-# by age
+# by age and sex
 prop_quit10_age <- prop_summary(data = data,
                                 var_name = "quit10",
                                 levels_1 = "y",
                                 levels_0 = "n",
-                                strat_vars = "age_cat")
+                                strat_vars = c("age_cat", "sex"))
 
-write.table(prop_quit10_age, "prop_quit10_age.csv", row.names = F, sep = ",")
+write.table(prop_quit10_age, "prop_quit10_age_sex.csv", row.names = F, sep = ",")
 
-# by sex
-prop_quit10_sex <- prop_summary(data = data,
-                                var_name = "quit10",
-                                levels_1 = "y",
-                                levels_0 = "n",
-                                strat_vars = "sex")
-
-write.table(prop_quit10_sex, "prop_quit10_sex.csv", row.names = F, sep = ",")
 
 # by imdq
 prop_quit10_imdq <- prop_summary(data = data,
